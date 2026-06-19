@@ -1,39 +1,1052 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free MCQ Practice App for Government Exams - SSC CGL, SSC CHSL, SSC GD, SSC MTS, RRB NTPC, RRB Group D, Banking Exams, Teaching Exams, UPSC, Civil Services, Railways, Defence, Police, Insurance, Nursing, Engineering, MBA, CUET, Judiciary and 500+ exams. Prepare with unlimited mock tests and practice questions.">
-    <meta name="keywords" content="MCQ, MCQ app, government exams, SSC CGL, SSC CHSL, SSC GD Constable, SSC MTS, SSC CPO, SSC Selection Post, SSC Stenographer, Delhi Police Constable, IB Security Assistant, IB ACIO, IB MTS, Banking Exams, SBI PO, IBPS, RRB NTPC, RRB Group D, RRB Technician, Railways Exams, Teaching Exams, UPTET, CTET, UPSC, Civil Services, Defence Exams, NDA, CDS, CAPF, State Govt Exams, UP Police Constable, UPPSC, Police Exams, Insurance Exams, LIC, GIC, Nursing Exams, ESIC, FSSAI, Engineering Recruitment, ESE, ISRO, BARC, DRDO, PSU Jobs, MBA Entrance, CAT, MAT, XAT, CUET, UG Entrance, Judiciary Exams, High Court, Regulatory Body Exams, RBI, SEBI, Campus Placement, Software Development, Data Science, Accounting, Commerce, Professional Skills">
-    <title>MCQ Practice App - Free Government Exam Preparation | SSC, Banking, Railways, Teaching Exams</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExamPrepro — Government Exam MCQ Practice</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #6C63FF;
+    --primary-dark: #574fd6;
+    --secondary: #FF6584;
+    --bg: #F0F2FF;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --radius: 16px;
+  }
+  body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ====== PAGES ====== */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: flex; flex-direction: column; }
+
+  /* ====== NAVBAR ====== */
+  .navbar {
+    background: white;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(108,99,255,0.08);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-size: 22px; font-weight: 800; color: var(--primary); }
+  .logo span { color: var(--secondary); }
+  .nav-btn { background: var(--primary); color: white; border: none; padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+  .nav-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+  .nav-btn.outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); margin-right: 8px; }
+  .nav-btn.outline:hover { background: var(--primary); color: white; }
+
+  /* ====== LANDING ====== */
+  .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    background: linear-gradient(135deg, #6C63FF 0%, #a78bfa 50%, #FF6584 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    top: -100px; right: -100px;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+    bottom: -80px; left: -80px;
+  }
+  .hero-badge { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; margin-bottom: 24px; display: inline-block; }
+  .hero h1 { font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 span { color: #fde68a; }
+  .hero p { font-size: 18px; opacity: 0.9; max-width: 500px; margin-bottom: 40px; line-height: 1.6; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+  .btn-lg { padding: 14px 36px; border-radius: 50px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; transition: 0.2s; }
+  .btn-white { background: white; color: var(--primary); }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  .btn-outline-white { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.7); }
+  .btn-outline-white:hover { background: rgba(255,255,255,0.1); }
+
+  .stats-row { display: flex; gap: 40px; justify-content: center; padding: 40px 24px; background: white; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 32px; font-weight: 800; color: var(--primary); }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  .features { padding: 60px 24px; max-width: 1000px; margin: 0 auto; width: 100%; }
+  .features h2 { text-align: center; font-size: 32px; font-weight: 800; margin-bottom: 40px; }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+  .feature-card { background: white; border-radius: var(--radius); padding: 28px; box-shadow: 0 4px 16px rgba(108,99,255,0.08); transition: 0.2s; }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(108,99,255,0.15); }
+  .feature-icon { font-size: 36px; margin-bottom: 16px; }
+  .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .feature-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  /* ====== AUTH MODAL ====== */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; padding: 24px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; border-radius: 24px; padding: 40px; width: 100%; max-width: 420px; position: relative; }
+  .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--muted); }
+  .modal h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+  .modal-sub { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+  .form-group input { width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 15px; outline: none; transition: 0.2s; }
+  .form-group input:focus { border-color: var(--primary); }
+  .btn-primary { width: 100%; background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: 0.2s; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .modal-switch { text-align: center; margin-top: 16px; font-size: 14px; color: var(--muted); }
+  .modal-switch a { color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none; }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+  .divider hr { flex: 1; border: none; border-top: 1px solid #e5e7eb; }
+  .divider span { font-size: 12px; color: var(--muted); }
+  .social-btn { width: 100%; background: #f9fafb; border: 2px solid #e5e7eb; color: var(--text); padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
+  .social-btn:hover { border-color: var(--primary); background: #f0f2ff; }
+
+  /* ====== ONBOARDING ====== */
+  .onboarding-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .onboarding-card { background: white; border-radius: 24px; padding: 48px 40px; max-width: 520px; width: 100%; box-shadow: 0 8px 32px rgba(108,99,255,0.12); }
+  .ob-progress { display: flex; gap: 8px; margin-bottom: 40px; }
+  .ob-dot { height: 6px; flex: 1; border-radius: 3px; background: #e5e7eb; transition: 0.3s; }
+  .ob-dot.active { background: var(--primary); }
+  .ob-dot.done { background: var(--success); }
+  .ob-icon { font-size: 56px; margin-bottom: 20px; }
+  .ob-title { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
+  .ob-sub { color: var(--muted); font-size: 15px; margin-bottom: 32px; line-height: 1.6; }
+  .ob-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+  .ob-option { padding: 16px 12px; border: 2px solid #e5e7eb; border-radius: 14px; text-align: center; cursor: pointer; transition: 0.2s; font-size: 14px; font-weight: 600; }
+  .ob-option:hover, .ob-option.selected { border-color: var(--primary); background: #f0f2ff; color: var(--primary); }
+  .ob-option .ob-opt-icon { font-size: 24px; margin-bottom: 6px; }
+  .ob-nav { display: flex; justify-content: space-between; align-items: center; }
+  .btn-back { background: none; border: 2px solid #e5e7eb; color: var(--muted); padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .btn-next { background: var(--primary); color: white; border: none; padding: 12px 32px; border-radius: 50px; font-size: 15px; font-weight: 700; cursor: pointer; }
+  .btn-next:hover { background: var(--primary-dark); }
+
+  /* ====== DASHBOARD ====== */
+  .dashboard-wrap { flex: 1; padding: 24px; max-width: 1100px; margin: 0 auto; width: 100%; }
+  .welcome-banner {
+    background: linear-gradient(135deg, #6C63FF, #a78bfa);
+    color: white;
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .welcome-banner h2 { font-size: 24px; font-weight: 800; }
+  .welcome-banner p { opacity: 0.85; margin-top: 4px; font-size: 15px; }
+  .streak-badge { background: rgba(255,255,255,0.2); border-radius: 50px; padding: 8px 18px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+  .section-title { font-size: 20px; font-weight: 800; margin-bottom: 20px; }
+  .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; margin-bottom: 40px; }
+  .subject-card {
+    background: white;
+    border-radius: 18px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.25s;
+    box-shadow: 0 4px 16px rgba(108,99,255,0.07);
+  }
+  .subject-card:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(108,99,255,0.15); }
+  .subject-icon { font-size: 40px; margin-bottom: 12px; }
+  .subject-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .subject-count { font-size: 12px; color: var(--muted); }
+  .subject-progress { height: 4px; background: #e5e7eb; border-radius: 2px; margin-top: 12px; overflow: hidden; }
+  .subject-progress-fill { height: 100%; background: var(--primary); border-radius: 2px; }
+
+  .quick-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 16px rgba(108,99,255,0.07); }
+  .stat-card .stat-num { font-size: 28px; font-weight: 800; color: var(--primary); }
+  .stat-card .stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* ====== CHAPTERS ====== */
+  .chapters-wrap { flex: 1; padding: 24px; max-width: 900px; margin: 0 auto; width: 100%; }
+  .back-btn { background: none; border: none; color: var(--primary); font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-bottom: 24px; padding: 0; }
+  .page-header { margin-bottom: 28px; }
+  .page-header h1 { font-size: 28px; font-weight: 800; }
+  .page-header p { color: var(--muted); margin-top: 6px; }
+  .chapters-list { display: flex; flex-direction: column; gap: 14px; }
+  .chapter-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s;
+    box-shadow: 0 4px 14px rgba(108,99,255,0.07);
+  }
+  .chapter-card:hover { border-color: var(--primary); transform: translateX(4px); }
+  .chapter-left { display: flex; align-items: center; gap: 16px; }
+  .chapter-num { width: 44px; height: 44px; background: #f0f2ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--primary); font-size: 16px; }
+  .chapter-name { font-size: 16px; font-weight: 700; }
+  .chapter-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .chapter-right { display: flex; align-items: center; gap: 12px; }
+  .difficulty-badge { padding: 4px 10px; border-radius: 50px; font-size: 11px; font-weight: 700; }
+  .diff-easy { background: #d1fae5; color: #065f46; }
+  .diff-medium { background: #fef3c7; color: #92400e; }
+  .diff-hard { background: #fee2e2; color: #991b1b; }
+  .arrow { color: var(--muted); font-size: 20px; }
+
+  /* ====== MCQ ====== */
+  .mcq-wrap { flex: 1; padding: 24px; max-width: 800px; margin: 0 auto; width: 100%; }
+  .mcq-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+  .mcq-progress-bar { height: 8px; background: #e5e7eb; border-radius: 4px; margin-bottom: 32px; overflow: hidden; }
+  .mcq-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #a78bfa); border-radius: 4px; transition: 0.4s; }
+  .mcq-info { display: flex; gap: 16px; flex-wrap: wrap; }
+  .mcq-badge { background: #f0f2ff; color: var(--primary); padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+  .timer-badge { background: #fef3c7; color: #92400e; padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+  .question-card { background: white; border-radius: 20px; padding: 32px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(108,99,255,0.1); }
+  .q-num { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 12px; }
+  .q-text { font-size: 19px; font-weight: 700; line-height: 1.6; margin-bottom: 8px; }
+  .q-lang-toggle { display: flex; gap: 8px; margin-bottom: 24px; }
+  .lang-btn { padding: 4px 14px; border-radius: 50px; border: 2px solid #e5e7eb; font-size: 12px; font-weight: 700; cursor: pointer; background: none; transition: 0.2s; }
+  .lang-btn.active { border-color: var(--primary); color: var(--primary); background: #f0f2ff; }
+  .options-list { display: flex; flex-direction: column; gap: 12px; }
+  .option-btn {
+    padding: 16px 20px;
+    border: 2px solid #e5e7eb;
+    border-radius: 14px;
+    background: white;
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: 0.2s;
+    font-family: inherit;
+    width: 100%;
+  }
+  .option-btn:hover { border-color: var(--primary); background: #f8f7ff; }
+  .option-btn.selected { border-color: var(--primary); background: #f0f2ff; }
+  .option-btn.correct { border-color: var(--success); background: #d1fae5; }
+  .option-btn.wrong { border-color: #ef4444; background: #fee2e2; }
+  .option-letter { width: 32px; height: 32px; border-radius: 8px; background: #f0f2ff; color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .option-btn.correct .option-letter { background: #10b981; color: white; }
+  .option-btn.wrong .option-letter { background: #ef4444; color: white; }
+
+  .solution-panel { background: #f0fdf4; border: 2px solid #a7f3d0; border-radius: 16px; padding: 24px; margin-top: 16px; display: none; }
+  .solution-panel.show { display: block; }
+  .sol-title { font-size: 15px; font-weight: 800; color: var(--success); margin-bottom: 12px; }
+  .sol-text { font-size: 14px; line-height: 1.7; color: #065f46; }
+  .shortcut-box { background: #fffbeb; border: 2px solid #fde68a; border-radius: 12px; padding: 14px 16px; margin-top: 12px; }
+  .shortcut-label { font-size: 12px; font-weight: 800; color: #92400e; margin-bottom: 6px; }
+  .shortcut-text { font-size: 14px; color: #78350f; }
+
+  .mcq-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
+  .btn-prev { background: none; border: 2px solid #e5e7eb; color: var(--muted); padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .btn-submit { background: var(--primary); color: white; border: none; padding: 13px 28px; border-radius: 50px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+  .btn-submit:hover { background: var(--primary-dark); }
+  .btn-next-q { background: var(--primary); color: white; border: none; padding: 13px 28px; border-radius: 50px; font-size: 15px; font-weight: 700; cursor: pointer; }
+
+  /* ====== RESULT ====== */
+  .result-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .result-card { background: white; border-radius: 24px; padding: 48px 40px; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(108,99,255,0.12); }
+  .result-icon { font-size: 64px; margin-bottom: 20px; }
+  .result-score { font-size: 56px; font-weight: 900; color: var(--primary); }
+  .result-sub { font-size: 16px; color: var(--muted); margin-top: 8px; margin-bottom: 32px; }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .result-stat { background: #f0f2ff; border-radius: 14px; padding: 16px; }
+  .result-stat-num { font-size: 24px; font-weight: 800; color: var(--primary); }
+  .result-stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .result-actions { display: flex; flex-direction: column; gap: 12px; }
+  .btn-retry { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
+  .btn-home { background: #f0f2ff; color: var(--primary); border: none; padding: 14px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
+
+  /* ====== EXAM MARQUEE ====== */
+  .marquee-band { background: white; padding: 28px 0; overflow: hidden; border-top: 1px solid #eef0fb; }
+  .marquee-band h3 { text-align: center; font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 18px; }
+  .marquee { display: flex; gap: 14px; width: max-content; animation: marquee 30s linear infinite; }
+  .marquee-band:hover .marquee { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  .exam-chip { display: flex; align-items: center; gap: 10px; background: linear-gradient(135deg,#f3f2ff,#fdeef2); border: 1px solid #e7e5ff; border-radius: 14px; padding: 12px 18px; white-space: nowrap; box-shadow: 0 2px 10px rgba(108,99,255,.06); }
+  .exam-chip .ec-ic { font-size: 22px; }
+  .exam-chip .ec-name { font-weight: 800; font-size: 14px; }
+  .exam-chip .ec-sub { font-size: 11px; color: var(--muted); }
+
+  /* ====== HOW IT WORKS ====== */
+  .how { padding: 60px 24px; max-width: 1000px; margin: 0 auto; width: 100%; }
+  .how h2, .testi h2, .faq h2 { text-align: center; font-size: 32px; font-weight: 800; margin-bottom: 40px; }
+  .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .step { background: white; border-radius: var(--radius); padding: 28px; box-shadow: 0 4px 16px rgba(108,99,255,.08); text-align: center; }
+  .step-num { width: 44px; height: 44px; margin: 0 auto 14px; border-radius: 12px; background: var(--primary); color: white; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .step h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .step p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  /* ====== TESTIMONIALS ====== */
+  .testi { padding: 60px 24px; max-width: 1000px; margin: 0 auto; width: 100%; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .testi-card { background: white; border-radius: var(--radius); padding: 24px; box-shadow: 0 4px 16px rgba(108,99,255,.08); }
+  .testi-card p { font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 16px; }
+  .testi-who { display: flex; align-items: center; gap: 12px; }
+  .testi-av { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+  .testi-name { font-size: 14px; font-weight: 700; }
+  .testi-role { font-size: 12px; color: var(--muted); }
+  .testi-stars { color: #f59e0b; font-size: 14px; margin-bottom: 10px; }
+
+  /* ====== FAQ ====== */
+  .faq { padding: 60px 24px; max-width: 760px; margin: 0 auto; width: 100%; }
+  .faq-item { background: white; border-radius: 14px; padding: 18px 22px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(108,99,255,.06); }
+  .faq-item summary { font-size: 15px; font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after { content: '+'; font-size: 20px; color: var(--primary); }
+  .faq-item[open] summary::after { content: '\2212'; }
+  .faq-item p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 12px; }
+
+  /* ====== FINAL CTA ====== */
+  .cta-band { background: linear-gradient(135deg,#6C63FF,#a78bfa 50%,#FF6584); color: white; text-align: center; padding: 64px 24px; }
+  .cta-band h2 { font-size: 30px; font-weight: 900; margin-bottom: 12px; }
+  .cta-band p { opacity: .9; margin-bottom: 28px; font-size: 16px; }
+
+  /* ====== FOOTER ====== */
+  .footer { background: #15162b; color: #c7c9e0; padding: 40px 24px; text-align: center; }
+  .footer .logo { margin-bottom: 10px; }
+  .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 14px 0; }
+  .footer-links a { color: #c7c9e0; text-decoration: none; font-size: 14px; cursor: pointer; }
+  .footer-links a:hover { color: white; }
+  .footer small { color: #8b8da8; font-size: 12px; }
+
+  /* ====== LOCKED SUBJECT ====== */
+  .subject-card.locked { opacity: .65; cursor: not-allowed; position: relative; }
+  .subject-card.locked:hover { transform: none; border-color: transparent; box-shadow: 0 4px 16px rgba(108,99,255,0.07); }
+  .subject-lock { position: absolute; top: 12px; right: 14px; font-size: 16px; }
+  .tag-soon { display: inline-block; margin-top: 10px; font-size: 10px; font-weight: 700; color: var(--muted); background: #eceefb; padding: 4px 10px; border-radius: 50px; }
+
+  /* ====== CHAPTERS DRAWER ====== */
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(20,20,40,.45); z-index: 900; display: none; align-items: flex-end; justify-content: center; }
+  .drawer-overlay.open { display: flex; }
+  .drawer { background: var(--bg); width: 100%; max-width: 760px; max-height: 86vh; border-radius: 24px 24px 0 0; padding: 12px 20px 28px; overflow-y: auto; animation: drawerUp .3s ease; }
+  @keyframes drawerUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .drawer-handle { width: 44px; height: 5px; border-radius: 3px; background: #d0d3e6; margin: 4px auto 14px; }
+  .drawer-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px; }
+  .drawer-head h3 { font-size: 20px; font-weight: 800; }
+  .drawer-head p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .drawer-close { background: white; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 15px; cursor: pointer; color: var(--muted); box-shadow: 0 2px 8px rgba(108,99,255,.12); }
+  .drawer-list { display: flex; flex-direction: column; gap: 12px; }
+  .chap-attempted { font-size: 12px; color: var(--muted); margin-top: 6px; font-weight: 600; }
+
+  /* ====== TOAST ====== */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(40px); background: var(--text); color: white; padding: 12px 22px; border-radius: 50px; font-size: 14px; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,.2); opacity: 0; pointer-events: none; transition: .3s; z-index: 1200; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 30px; }
+    .hero p { font-size: 16px; }
+    .ob-options { grid-template-columns: 1fr; }
+    .result-grid { grid-template-columns: 1fr; }
+    .onboarding-card { padding: 32px 24px; }
+    .steps, .testi-grid { grid-template-columns: 1fr; }
+    .features h2, .how h2, .testi h2, .faq h2 { font-size: 26px; }
+    .stats-row { gap: 24px; }
+  }
+</style>
 </head>
 <body>
-    <h1>MCQ Practice App - Free Government Exam Preparation</h1>
-    <p>Welcome to MCQ App - Your Free Practice Platform for 500+ Government and Competitive Exams</p>
-    
-    <h2>Exams We Cover</h2>
-    <ul>
-        <li><strong>SSC Exams:</strong> SSC CGL, SSC CHSL, SSC GD Constable, SSC MTS, SSC CPO, SSC Selection Post, SSC Stenographer, Delhi Police Constable, IB Security Assistant, IB ACIO, IB MTS</li>
-        <li><strong>Banking Exams:</strong> SBI PO, IBPS PO, IBPS Clerk, RRB Officer, RRB Assistant, RBI Grade B, RBI Assistant, NABARD, SEBI</li>
-        <li><strong>Railways Exams:</strong>strong> RRB NTPC, RRB Group D, RRB Technician, RRB ALP, RRB JE</li>
-        <li><strong>Teaching Exams:</strong> UPTET, CTET, UGC NET, SET, HTET, KVS, NVS</li>
-        <li><strong>Civil Services:</strong> UPSC IAS, IPS, IFS, State PCS, UPPSC, MPPSC, TNPSC</li>
-        <li><strong>Defence Exams:</strong>strong> NDA, CDS, AFCAT, IAF Group X Y, Indian Navy SSR, ARMY Soldier, CAPF</li>
-        <li><strong>Police Exams:</strong> UP Police Constable, Delhi Police, IB Security Assistant, State Police</li>
-        <li><strong>Engineering Recruitment:</strong> ESE, ISRO, DRDO, BARC, GATE, PSU Jobs</li>
-        <li><strong>MBA Entrance:</strong>strong> CAT, MAT, XAT, CMAT, GMAT, SNAP, IIFT</li>
-        <li><strong>CUET & UG Entrance:</strong> CUET, NEET, JEE, BHU UET, AMU, DU JAT</li>
-        <li><strong>Insurance Exams:</strong> LIC AAO, LIC ADO, GIC, NIACL, UIIC, OICL</li>
-        <li><strong>Nursing Exams:</strong>strong> ESIC, AIIMS Nursing, State Nursing Council</li>
-        <li><strong>Judiciary Exams:</strong> High Court Clerk, Junior Judge, District Judge</li>
-        <li><strong>Other Govt Exams:</strong> FSSAI, CDSCO, AYUSH, Forest, Revenue, Revenue Inspector</li>
-        <li><strong>Campus Placement:</strong>strong> Technical, HR, Aptitude, Reasoning Practice</li>
-        <li><strong>Software Development:</strong> Programming, DSA, Web Development, Java, Python</li>
-        <li><strong>Data Science:</strong> Data Analytics, Machine Learning, Statistics</li>
-        <li><strong>Accounting & Commerce:</strong>strong> CA, ACCA, CPA, CMA, CS, ICWA</li>
-    </ul>
-    
-    <p>Start practicing now with our comprehensive MCQ bank covering all major government and competitive exams in India. 100% Free - No registration required!</p>
-</body>
-</html>html></p></li></strong></strong></li></li></strong></strong></li></li></strong></strong></li></li></strong></strong></li></li></strong></strong></li></li></strong></strong></li></ul></p></h1></body></title></head>
 
+<!-- ====== LANDING PAGE ====== -->
+<div id="page-landing" class="page active">
+  <nav class="navbar">
+    <div class="logo">Exam<span>Prepro</span></div>
+    <div>
+      <button class="nav-btn outline" onclick="openModal('login')">Login</button>
+      <button class="nav-btn" onclick="openModal('signup')">Sign Up Free</button>
+    </div>
+  </nav>
+  <div class="hero">
+    <div class="hero-badge">🎯 SSC · Railway · Banking · UPSC</div>
+    <h1>Crack Your Exam<br>with <span>Smart MCQ</span><br>Practice</h1>
+    <p>10,000+ PYQ questions across all chapters. Bilingual (Hindi + English). Detailed solutions & shortcuts.</p>
+    <div class="hero-btns">
+      <button class="btn-lg btn-white" onclick="openModal('signup')">Start for Free 🚀</button>
+      <button class="btn-lg btn-outline-white" onclick="openModal('login')">Already a member?</button>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">10,000+</div><div class="stat-label">PYQ Questions</div></div>
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Chapters</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Subjects</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Languages</div></div>
+  </div>
+  <div class="marquee-band">
+    <h3>Popular Government Exams</h3>
+    <div class="marquee" id="exam-marquee"></div>
+  </div>
+  <div class="features">
+    <h2>Why ExamPrepro?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3>Real PYQ Questions</h3>
+        <p>Practice with actual previous year questions from SSC, Railway, Banking exams.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🇮🇳</div>
+        <h3>Hindi + English</h3>
+        <p>Switch between Hindi and English anytime. Learn in your preferred language.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Shortcuts & Tricks</h3>
+        <p>Learn smart shortcuts to solve questions 3x faster in the exam hall.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Track Progress</h3>
+        <p>Know your weak chapters. Focus on what matters. Improve your score.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="how">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Sign up free</h3><p>30 second mein account banao. Koi credit card nahi chahiye.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Subject &amp; chapter chuno</h3><p>Quant se shuru karo. Har chapter ke real PYQs aur shortcuts.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Practice &amp; track</h3><p>Question attempt karo, solution samjho, apni accuracy track karo.</p></div>
+    </div>
+  </div>
+
+  <div class="testi">
+    <h2>Students Love It</h2>
+    <div class="testi-grid">
+      <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p>"PYQ practice se mera confidence badh gaya. Hindi-English dono mein solutions milte hain &mdash; bahut helpful."</p><div class="testi-who"><div class="testi-av">R</div><div><div class="testi-name">Rahul Kumar</div><div class="testi-role">SSC CGL Aspirant</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p>"Shortcuts aur tricks ne exam hall mein time bachaya. Quant ab mushkil nahi lagta."</p><div class="testi-who"><div class="testi-av">P</div><div><div class="testi-name">Priya Sharma</div><div class="testi-role">Banking IBPS</div></div></div></div>
+      <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p>"Bilingual support best hai. Main Hindi medium se hoon, ab koi dikkat nahi."</p><div class="testi-who"><div class="testi-av">A</div><div><div class="testi-name">Amit Singh</div><div class="testi-role">Railway RRB</div></div></div></div>
+    </div>
+  </div>
+
+  <div class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <details class="faq-item"><summary>Kya ye bilkul free hai?</summary><p>Haan, sign up free hai. Quant ke saare live chapters abhi practice kar sakte ho.</p></details>
+    <details class="faq-item"><summary>Questions Hindi mein milenge?</summary><p>Bilkul. Har question Hindi aur English dono mein available hai &mdash; ek click mein switch karo.</p></details>
+    <details class="faq-item"><summary>Kaunse exams cover hote hain?</summary><p>SSC CGL, CHSL, MTS, GD, Railway RRB, Banking IBPS, Delhi Police, State PSC aur UPSC ke liye PYQ-based practice.</p></details>
+    <details class="faq-item"><summary>Baaki subjects kab aayenge?</summary><p>Abhi Quantitative Aptitude live hai. Reasoning, English, GK/GS aur Science jaldi add honge.</p></details>
+  </div>
+
+  <div class="cta-band">
+    <h2>Aaj se apni taiyari shuru karo</h2>
+    <p>Hazaaron PYQs, bilingual solutions, smart shortcuts &mdash; sab ek jagah.</p>
+    <button class="btn-lg btn-white" onclick="openModal('signup')">Start for Free &#128640;</button>
+  </div>
+
+  <div class="footer">
+    <div class="logo">Exam<span>Prepro</span></div>
+    <div class="footer-links"><a onclick="openModal('signup')">Sign Up</a><a onclick="openModal('login')">Login</a><a>About</a><a>Contact</a><a>Privacy</a></div>
+    <small>&copy; 2026 ExamPrepro &middot; Government Exam MCQ Practice</small>
+  </div>
+</div>
+
+<!-- ====== AUTH MODAL ====== -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-login">
+      <h2>Welcome back! 👋</h2>
+      <p class="modal-sub">Login to continue your preparation</p>
+      <button class="social-btn">🇬 &nbsp; Continue with Google</button>
+      <div class="divider"><hr><span>or login with email</span><hr></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"></div>
+      <button class="btn-primary" onclick="goToOnboarding()">Login →</button>
+      <div class="modal-switch">Don't have an account? <a onclick="switchModal('signup')">Sign Up</a></div>
+    </div>
+    <div id="modal-signup" style="display:none">
+      <h2>Create Account 🎯</h2>
+      <p class="modal-sub">Join 50,000+ students preparing smarter</p>
+      <button class="social-btn">🇬 &nbsp; Continue with Google</button>
+      <div class="divider"><hr><span>or sign up with email</span><hr></div>
+      <div class="form-group"><label>Full Name</label><input type="text" placeholder="Ravi Kumar"></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="Create password"></div>
+      <button class="btn-primary" onclick="goToOnboarding()">Create Account →</button>
+      <div class="modal-switch">Already have an account? <a onclick="switchModal('login')">Login</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== ONBOARDING ====== -->
+<div id="page-onboarding" class="page">
+  <nav class="navbar">
+    <div class="logo">Exam<span>Prepro</span></div>
+    <div style="font-size:13px;color:var(--muted)">Setup Profile</div>
+  </nav>
+  <div class="onboarding-wrap">
+    <div class="onboarding-card">
+      <div class="ob-progress">
+        <div class="ob-dot" id="od1"></div>
+        <div class="ob-dot" id="od2"></div>
+        <div class="ob-dot" id="od3"></div>
+      </div>
+      <!-- Step 1 -->
+      <div id="ob-step-1">
+        <div class="ob-icon">🎯</div>
+        <div class="ob-title">Kaunsa exam ki taiyari hai?</div>
+        <div class="ob-sub">Apna target exam select karo taaki hum tumhare liye best content ready karein.</div>
+        <div class="ob-options">
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">📋</div>SSC CGL</div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">🚂</div>Railway RRB</div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">🏦</div>Banking IBPS</div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">🏛️</div>UPSC</div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">👮</div>Delhi Police</div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">📚</div>Other</div>
+        </div>
+        <div class="ob-nav">
+          <div></div>
+          <button class="btn-next" onclick="obNext(2)">Next →</button>
+        </div>
+      </div>
+      <!-- Step 2 -->
+      <div id="ob-step-2" style="display:none">
+        <div class="ob-icon">📅</div>
+        <div class="ob-title">Exam kab hai?</div>
+        <div class="ob-sub">Hum tumhara study plan accordingly banayenge.</div>
+        <div class="ob-options">
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">⚡</div>1 Mahine mein</div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">📆</div>3 Mahine mein</div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">🗓️</div>6 Mahine mein</div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">🌟</div>1 Saal mein</div>
+        </div>
+        <div class="ob-nav">
+          <button class="btn-back" onclick="obNext(1)">← Back</button>
+          <button class="btn-next" onclick="obNext(3)">Next →</button>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div id="ob-step-3" style="display:none">
+        <div class="ob-icon">📊</div>
+        <div class="ob-title">Apna level batao</div>
+        <div class="ob-sub">Hum questions ki difficulty accordingly adjust karenge.</div>
+        <div class="ob-options">
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">🌱</div>Beginner<br><small style="font-weight:400;color:var(--muted)">Abhi shuru kar raha hoon</small></div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">📈</div>Intermediate<br><small style="font-weight:400;color:var(--muted)">Thodi preparation hai</small></div>
+          <div class="ob-option" onclick="selectOb(this)"><div class="ob-opt-icon">🔥</div>Advanced<br><small style="font-weight:400;color:var(--muted)">Kaafi preparation hai</small></div>
+        </div>
+        <div class="ob-nav">
+          <button class="btn-back" onclick="obNext(2)">← Back</button>
+          <button class="btn-next" onclick="goToDashboard()">Let's Go! 🚀</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== DASHBOARD ====== -->
+<div id="page-dashboard" class="page">
+  <nav class="navbar">
+    <div class="logo">Exam<span>Prepro</span></div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:14px;color:var(--muted)">Namaste, Medha 👋</span>
+      <div style="width:36px;height:36px;background:var(--primary);border-radius:50%;color:white;display:flex;align-items:center;justify-content:center;font-weight:800">M</div>
+    </div>
+  </nav>
+  <div class="dashboard-wrap">
+    <div class="welcome-banner">
+      <div>
+        <h2>Good Morning, Medha! ☀️</h2>
+        <p>SSC CGL 2024 preparation — Keep it up!</p>
+      </div>
+    </div>
+    <div class="section-title">&#128202; Your Stats</div>
+    <div class="quick-stats">
+      <div class="stat-card"><div class="stat-num" style="color:var(--primary)">0</div><div class="stat-label">Questions Attempted</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#10b981">0</div><div class="stat-label">Correct</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#ef4444">0</div><div class="stat-label">Wrong</div></div>
+      <div class="stat-card"><div class="stat-num">0%</div><div class="stat-label">Accuracy</div></div>
+    </div>
+    <div class="section-title">📚 Choose Your Subject</div>
+    <div class="subjects-grid">
+      <div class="subject-card" onclick="goToChapters('quant')">
+        <div class="subject-icon">🔢</div>
+        <div class="subject-name">Quantitative Aptitude</div>
+        <div class="subject-count">18 Chapters · 3200+ Questions</div>
+        <div class="subject-progress"><div class="subject-progress-fill" style="width:45%"></div></div>
+      </div>
+      <div class="subject-card locked" onclick="lockedSubject('Reasoning')">
+        <span class="subject-lock">&#128274;</span>
+        <div class="subject-icon">🧠</div>
+        <div class="subject-name">Reasoning</div>
+        <div class="subject-count">15 Chapters · 2800+ Questions</div>
+        <div class="tag-soon">&#128274; Coming soon</div>
+      </div>
+      <div class="subject-card locked" onclick="lockedSubject('English')">
+        <span class="subject-lock">&#128274;</span>
+        <div class="subject-icon">🔤</div>
+        <div class="subject-name">English</div>
+        <div class="subject-count">12 Chapters · 2100+ Questions</div>
+        <div class="tag-soon">&#128274; Coming soon</div>
+      </div>
+      <div class="subject-card locked" onclick="lockedSubject('General Knowledge')">
+        <span class="subject-lock">&#128274;</span>
+        <div class="subject-icon">🌍</div>
+        <div class="subject-name">General Knowledge</div>
+        <div class="subject-count">10 Chapters · 1800+ Questions</div>
+        <div class="tag-soon">&#128274; Coming soon</div>
+      </div>
+      <div class="subject-card locked" onclick="lockedSubject('General Science')">
+        <span class="subject-lock">&#128274;</span>
+        <div class="subject-icon">🔬</div>
+        <div class="subject-name">General Science</div>
+        <div class="subject-count">8 Chapters · 1500+ Questions</div>
+        <div class="tag-soon">&#128274; Coming soon</div>
+      </div>
+      <div class="subject-card locked" onclick="lockedSubject('Current Affairs')">
+        <span class="subject-lock">&#128274;</span>
+        <div class="subject-icon">📰</div>
+        <div class="subject-name">Current Affairs</div>
+        <div class="subject-count">Monthly · 600+ Questions</div>
+        <div class="tag-soon">&#128274; Coming soon</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== CHAPTERS ====== -->
+<div id="page-chapters" class="page">
+  <nav class="navbar">
+    <div class="logo">Exam<span>Prepro</span></div>
+    <div style="font-size:13px;color:var(--muted)" id="chapters-breadcrumb">Dashboard → Subject</div>
+  </nav>
+  <div class="chapters-wrap">
+    <button class="back-btn" onclick="showPage('page-dashboard')">← Back to Dashboard</button>
+    <div class="page-header">
+      <h1 id="chapters-title">🔢 Quantitative Aptitude</h1>
+      <p id="chapters-sub">18 Chapters · 3200+ PYQ Questions</p>
+    </div>
+    <div class="chapters-list" id="chapters-list"></div>
+  </div>
+</div>
+
+<!-- ====== MCQ ====== -->
+<div id="page-mcq" class="page">
+  <nav class="navbar">
+    <div class="logo">Exam<span>Prepro</span></div>
+    <div id="mcq-nav-info" style="font-size:13px;color:var(--muted)">Simplification</div>
+  </nav>
+  <div class="mcq-wrap">
+    <div class="mcq-header">
+      <button class="back-btn" style="margin:0" onclick="showPage('page-dashboard')">← Dashboard</button>
+      <div class="mcq-info">
+        <span class="mcq-badge" id="mcq-counter">Q 1 / 5</span>
+        <span class="timer-badge" id="mcq-timer">⏱ 2:00</span>
+      </div>
+    </div>
+    <div class="mcq-progress-bar"><div class="mcq-progress-fill" id="mcq-progress-fill" style="width:20%"></div></div>
+    <div class="question-card">
+      <div class="q-num" id="q-num">Question 1</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="q-lang-toggle">
+        <button class="lang-btn active" onclick="setLang('hi', this)">हिंदी</button>
+        <button class="lang-btn" onclick="setLang('en', this)">English</button>
+      </div>
+      <div class="options-list" id="options-list"></div>
+      <div class="solution-panel" id="solution-panel">
+        <div class="sol-title">✅ Correct Answer & Solution</div>
+        <div class="sol-text" id="sol-text"></div>
+        <div class="shortcut-box">
+          <div class="shortcut-label">⚡ Shortcut / Trick</div>
+          <div class="shortcut-text" id="shortcut-text"></div>
+        </div>
+      </div>
+    </div>
+    <div class="mcq-nav">
+      <button class="btn-prev" onclick="prevQ()">← Prev</button>
+      <button class="btn-submit" id="submit-btn" onclick="submitAnswer()">Check Answer</button>
+      <button class="btn-next-q" id="next-btn" style="display:none" onclick="nextQ()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== RESULT ====== -->
+<div id="page-result" class="page">
+  <nav class="navbar">
+    <div class="logo">Exam<span>Prepro</span></div>
+  </nav>
+  <div class="result-wrap">
+    <div class="result-card">
+      <div class="result-icon" id="result-icon">🎉</div>
+      <div class="result-score" id="result-score">4/5</div>
+      <div class="result-sub" id="result-sub">Excellent! You scored 80%</div>
+      <div class="result-grid">
+        <div class="result-stat"><div class="result-stat-num" style="color:#10b981" id="r-correct">4</div><div class="result-stat-label">Correct</div></div>
+        <div class="result-stat"><div class="result-stat-num" style="color:#ef4444" id="r-wrong">1</div><div class="result-stat-label">Wrong</div></div>
+        <div class="result-stat"><div class="result-stat-num">80%</div><div class="result-stat-label">Accuracy</div></div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-retry" onclick="startMCQ(currentChapter)">🔄 Retry Chapter</button>
+        <button class="btn-home" onclick="showPage('page-dashboard')">🏠 Back to Dashboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== CHAPTERS DRAWER ====== -->
+<div class="drawer-overlay" id="chapters-drawer" onclick="if(event.target===this)closeDrawer()">
+  <div class="drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-head">
+      <div>
+        <h3 id="drawer-title">Quantitative Aptitude</h3>
+        <p id="drawer-sub">10 Chapters</p>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-list" id="drawer-list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ====== DATA ======
+const subjectData = {
+  quant: { title: '🔢 Quantitative Aptitude', sub: '18 Chapters · 3200+ PYQ Questions', chapters: [
+    { name: 'Simplification', questions: 45, difficulty: 'easy' },
+    { name: 'Number System', questions: 38, difficulty: 'medium' },
+    { name: 'Percentage', questions: 42, difficulty: 'easy' },
+    { name: 'Profit & Loss', questions: 35, difficulty: 'medium' },
+    { name: 'Ratio & Proportion', questions: 30, difficulty: 'medium' },
+    { name: 'Time & Work', questions: 40, difficulty: 'hard' },
+    { name: 'Time, Speed & Distance', questions: 36, difficulty: 'hard' },
+    { name: 'Average', questions: 28, difficulty: 'easy' },
+    { name: 'Simple Interest', questions: 25, difficulty: 'easy' },
+    { name: 'Compound Interest', questions: 22, difficulty: 'medium' },
+  ]},
+  reasoning: { title: '🧠 Reasoning', sub: '15 Chapters · 2800+ PYQ Questions', chapters: [
+    { name: 'Series (Number)', questions: 50, difficulty: 'easy' },
+    { name: 'Analogy', questions: 45, difficulty: 'easy' },
+    { name: 'Blood Relations', questions: 30, difficulty: 'medium' },
+    { name: 'Coding-Decoding', questions: 40, difficulty: 'medium' },
+    { name: 'Direction Sense', questions: 25, difficulty: 'medium' },
+    { name: 'Seating Arrangement', questions: 35, difficulty: 'hard' },
+    { name: 'Syllogism', questions: 28, difficulty: 'hard' },
+  ]},
+  english: { title: '🔤 English', sub: '12 Chapters · 2100+ PYQ Questions', chapters: [
+    { name: 'Vocabulary', questions: 60, difficulty: 'medium' },
+    { name: 'Reading Comprehension', questions: 40, difficulty: 'hard' },
+    { name: 'Fill in the Blanks', questions: 35, difficulty: 'easy' },
+    { name: 'Error Detection', questions: 30, difficulty: 'medium' },
+    { name: 'Sentence Improvement', questions: 28, difficulty: 'medium' },
+  ]},
+  gk: { title: '🌍 General Knowledge', sub: '10 Chapters · 1800+ PYQ Questions', chapters: [
+    { name: 'Indian History', questions: 80, difficulty: 'medium' },
+    { name: 'Indian Geography', questions: 60, difficulty: 'medium' },
+    { name: 'Indian Polity', questions: 55, difficulty: 'hard' },
+    { name: 'Indian Economy', questions: 45, difficulty: 'hard' },
+    { name: 'Sports', questions: 35, difficulty: 'easy' },
+  ]},
+  science: { title: '🔬 General Science', sub: '8 Chapters · 1500+ PYQ Questions', chapters: [
+    { name: 'Physics Basics', questions: 50, difficulty: 'medium' },
+    { name: 'Chemistry Basics', questions: 45, difficulty: 'medium' },
+    { name: 'Biology Basics', questions: 40, difficulty: 'easy' },
+    { name: 'Computer Fundamentals', questions: 35, difficulty: 'easy' },
+  ]},
+  ca: { title: '📰 Current Affairs', sub: 'Monthly Updates · 600+ Questions', chapters: [
+    { name: 'June 2025', questions: 50, difficulty: 'medium' },
+    { name: 'May 2025', questions: 50, difficulty: 'medium' },
+    { name: 'April 2025', questions: 48, difficulty: 'medium' },
+  ]},
+};
+
+const sampleQuestions = [
+  {
+    hi: '3 + 5 × 2 − 4 ÷ 2 का मान क्या होगा?',
+    en: 'What is the value of 3 + 5 × 2 − 4 ÷ 2?',
+    options: { hi: ['10', '11', '13', '15'], en: ['10', '11', '13', '15'] },
+    correct: 1,
+    solution_hi: 'BODMAS के अनुसार पहले गुणा और भाग: 5×2=10, 4÷2=2। अब: 3 + 10 − 2 = 11।',
+    solution_en: 'By BODMAS, first multiply and divide: 5×2=10, 4÷2=2. Then: 3 + 10 − 2 = 11.',
+    shortcut_hi: 'BODMAS याद रखो: B(Bracket) → O(Of) → D(Division) → M(Multiplication) → A(Addition) → S(Subtraction)',
+  },
+  {
+    hi: '144 का वर्गमूल क्या है?',
+    en: 'What is the square root of 144?',
+    options: { hi: ['11', '12', '13', '14'], en: ['11', '12', '13', '14'] },
+    correct: 1,
+    solution_hi: '12 × 12 = 144। इसलिए √144 = 12।',
+    solution_en: '12 × 12 = 144. So √144 = 12.',
+    shortcut_hi: 'Perfect squares याद करो: 1,4,9,16,25,36,49,64,81,100,121,144,169...',
+  },
+  {
+    hi: 'यदि किसी संख्या का 30% = 90 हो, तो वह संख्या क्या है?',
+    en: 'If 30% of a number = 90, find the number.',
+    options: { hi: ['270', '300', '330', '360'], en: ['270', '300', '330', '360'] },
+    correct: 1,
+    solution_hi: 'x × 30/100 = 90 → x = 90 × 100/30 = 300।',
+    solution_en: 'x × 30/100 = 90 → x = 90 × 100/30 = 300.',
+    shortcut_hi: 'Percentage से संख्या: (दी गई value × 100) ÷ percentage = 90×100÷30 = 300',
+  },
+  {
+    hi: '2/5 + 3/10 = ?',
+    en: '2/5 + 3/10 = ?',
+    options: { hi: ['1/2', '7/10', '5/10', '1/5'], en: ['1/2', '7/10', '5/10', '1/5'] },
+    correct: 1,
+    solution_hi: 'LCM(5,10)=10। 2/5 = 4/10। तो 4/10 + 3/10 = 7/10।',
+    solution_en: 'LCM(5,10)=10. 2/5 = 4/10. So 4/10 + 3/10 = 7/10.',
+    shortcut_hi: 'Fractions add करने के लिए पहले denominator same बनाओ (LCM method)',
+  },
+  {
+    hi: '15 का 20% + 20 का 15% = ?',
+    en: '20% of 15 + 15% of 20 = ?',
+    options: { hi: ['3', '4', '5', '6'], en: ['3', '4', '5', '6'] },
+    correct: 3,
+    solution_hi: '15 का 20% = 3। 20 का 15% = 3। 3 + 3 = 6।',
+    solution_en: '20% of 15 = 3. 15% of 20 = 3. 3 + 3 = 6.',
+    shortcut_hi: 'Trick: a% of b = b% of a। इसलिए दोनों same हैं = 3+3 = 6',
+  },
+];
+
+// ====== STATE ======
+let currentLang = 'hi';
+let currentQ = 0;
+let answers = [];
+let answered = false;
+let timerInterval;
+let timeLeft = 120;
+let currentChapter = 'Simplification';
+
+// ====== NAVIGATION ======
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function openModal(type) {
+  document.getElementById('auth-modal').classList.add('open');
+  document.getElementById('modal-login').style.display = type==='login' ? 'block' : 'none';
+  document.getElementById('modal-signup').style.display = type==='signup' ? 'block' : 'none';
+}
+
+function closeModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+}
+
+function switchModal(type) {
+  document.getElementById('modal-login').style.display = type==='login' ? 'block' : 'none';
+  document.getElementById('modal-signup').style.display = type==='signup' ? 'block' : 'none';
+}
+
+function goToOnboarding() {
+  closeModal();
+  obNext(1);
+  showPage('page-onboarding');
+}
+
+function goToDashboard() {
+  showPage('page-dashboard');
+}
+
+// ====== ONBOARDING ======
+function selectOb(el) {
+  el.closest('.ob-options').querySelectorAll('.ob-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function obNext(step) {
+  [1,2,3].forEach(i => {
+    document.getElementById('ob-step-'+i).style.display = 'none';
+    const dot = document.getElementById('od'+i);
+    if(i < step) { dot.className = 'ob-dot done'; }
+    else if(i === step) { dot.className = 'ob-dot active'; }
+    else { dot.className = 'ob-dot'; }
+  });
+  document.getElementById('ob-step-'+step).style.display = 'block';
+}
+
+// ====== CHAPTERS ======
+function goToChapters(subject) {
+  const data = subjectData[subject];
+  document.getElementById('drawer-title').textContent = data.title;
+  document.getElementById('drawer-sub').textContent = data.chapters.length + ' Chapters';
+  const list = document.getElementById('drawer-list');
+  list.innerHTML = '';
+  data.chapters.forEach((ch, i) => {
+    const diffClass = { easy: 'diff-easy', medium: 'diff-medium', hard: 'diff-hard' }[ch.difficulty];
+    const diffLabel = { easy: 'Easy', medium: 'Medium', hard: 'Hard' }[ch.difficulty];
+    list.innerHTML += `
+      <div class="chapter-card" onclick="startMCQ('${ch.name}')">
+        <div class="chapter-left">
+          <div class="chapter-num">${i+1}</div>
+          <div>
+            <div class="chapter-name">${ch.name}</div>
+            <div class="chapter-meta">${ch.questions} Questions · PYQ</div>
+            <div class="chap-attempted">0 attempted · ${ch.questions} total</div>
+          </div>
+        </div>
+        <div class="chapter-right">
+          <span class="difficulty-badge ${diffClass}">${diffLabel}</span>
+          <span class="arrow">›</span>
+        </div>
+      </div>`;
+  });
+  document.getElementById('chapters-drawer').classList.add('open');
+}
+function closeDrawer() {
+  document.getElementById('chapters-drawer').classList.remove('open');
+}
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2400);
+}
+function lockedSubject(name) {
+  toast('\uD83D\uDD12 ' + name + ' jaldi aa raha hai \u2014 abhi sirf Quant live hai');
+}
+const examList = [
+  { ic: '\uD83D\uDCCB', name: 'SSC CGL', sub: 'Tier 1 & 2' },
+  { ic: '\uD83D\uDE82', name: 'Railway RRB', sub: 'NTPC · Group D' },
+  { ic: '\uD83C\uDFE6', name: 'Banking IBPS', sub: 'PO · Clerk' },
+  { ic: '\uD83C\uDFDB\uFE0F', name: 'UPSC', sub: 'Prelims' },
+  { ic: '\uD83D\uDC6E', name: 'Delhi Police', sub: 'Constable · SI' },
+  { ic: '\uD83D\uDCDD', name: 'SSC CHSL', sub: '10+2 Level' },
+  { ic: '\uD83D\uDCBC', name: 'SSC MTS', sub: 'Multitasking' },
+  { ic: '\uD83D\uDEE1\uFE0F', name: 'SSC GD', sub: 'Constable' },
+  { ic: '\uD83C\uDFE2', name: 'SBI PO', sub: 'Probationary' },
+  { ic: '\u2696\uFE0F', name: 'State PSC', sub: 'All states' },
+];
+function renderMarquee() {
+  const m = document.getElementById('exam-marquee');
+  if (!m) return;
+  const chip = function (e) { return '<div class="exam-chip"><span class="ec-ic">' + e.ic + '</span><div><div class="ec-name">' + e.name + '</div><div class="ec-sub">' + e.sub + '</div></div></div>'; };
+  const html = examList.map(chip).join('');
+  m.innerHTML = html + html;
+}
+document.addEventListener('DOMContentLoaded', renderMarquee);
+
+// ====== MCQ ======
+function startMCQ(chapter) {
+  closeDrawer();
+  currentChapter = chapter;
+  currentQ = 0;
+  answers = new Array(sampleQuestions.length).fill(null);
+  answered = false;
+  document.getElementById('mcq-nav-info').textContent = chapter;
+  showPage('page-mcq');
+  renderQ();
+  startTimer();
+}
+
+function renderQ() {
+  const q = sampleQuestions[currentQ];
+  answered = answers[currentQ] !== null;
+  document.getElementById('q-num').textContent = 'Question ' + (currentQ+1);
+  document.getElementById('q-text').textContent = q[currentLang];
+  document.getElementById('mcq-counter').textContent = 'Q ' + (currentQ+1) + ' / ' + sampleQuestions.length;
+  document.getElementById('mcq-progress-fill').style.width = ((currentQ+1)/sampleQuestions.length*100) + '%';
+  const optList = document.getElementById('options-list');
+  const letters = ['A','B','C','D'];
+  optList.innerHTML = '';
+  q.options[currentLang].forEach((opt, i) => {
+    let cls = '';
+    if(answered) {
+      if(i === q.correct) cls = 'correct';
+      else if(i === answers[currentQ]) cls = 'wrong';
+    }
+    optList.innerHTML += `
+      <button class="option-btn ${cls}" onclick="selectOption(${i})" ${answered?'disabled':''}>
+        <span class="option-letter">${letters[i]}</span>
+        ${opt}
+      </button>`;
+  });
+  const solPanel = document.getElementById('solution-panel');
+  if(answered) {
+    solPanel.classList.add('show');
+    document.getElementById('sol-text').textContent = q['solution_' + currentLang] || q.solution_hi;
+    document.getElementById('shortcut-text').textContent = q.shortcut_hi;
+    document.getElementById('submit-btn').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'inline-block';
+  } else {
+    solPanel.classList.remove('show');
+    document.getElementById('submit-btn').style.display = 'inline-block';
+    document.getElementById('next-btn').style.display = 'none';
+  }
+}
+
+function selectOption(i) {
+  if(answered) return;
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.option-btn')[i].classList.add('selected');
+  answers[currentQ] = i;
+}
+
+function submitAnswer() {
+  if(answers[currentQ] === null) { alert('Pehle koi option choose karo!'); return; }
+  answered = true;
+  renderQ();
+}
+
+function nextQ() {
+  if(currentQ < sampleQuestions.length - 1) {
+    currentQ++;
+    renderQ();
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if(currentQ > 0) { currentQ--; renderQ(); }
+}
+
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderQ();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = 120;
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const m = Math.floor(timeLeft/60);
+    const s = timeLeft % 60;
+    document.getElementById('mcq-timer').textContent = '⏱ ' + m + ':' + String(s).padStart(2,'0');
+    if(timeLeft <= 0) { clearInterval(timerInterval); showResult(); }
+  }, 1000);
+}
+
+function showResult() {
+  clearInterval(timerInterval);
+  const correct = answers.filter((a, i) => a === sampleQuestions[i].correct).length;
+  const total = sampleQuestions.length;
+  const pct = Math.round(correct/total*100);
+  const icon = pct >= 80 ? '🎉' : pct >= 60 ? '😊' : '💪';
+  const msg = pct >= 80 ? 'Excellent! You scored ' + pct + '%' : pct >= 60 ? 'Good job! You scored ' + pct + '%' : 'Keep practicing! You scored ' + pct + '%';
+  document.getElementById('result-icon').textContent = icon;
+  document.getElementById('result-score').textContent = correct + '/' + total;
+  document.getElementById('result-sub').textContent = msg;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = total - correct;
+  showPage('page-result');
+}
+</script>
+</body>
+</html>
